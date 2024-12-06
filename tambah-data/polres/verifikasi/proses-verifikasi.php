@@ -30,6 +30,10 @@ if (isset($_FILES["filecsv"])) {
 
         // Hapus header dari data
         $data = array_slice($data, 1);
+        // $data = array_slice($data, 2);
+
+        // Jika daat
+
 
         if (isset($_POST['simpan'])) {
             $Periode = $_POST['Periode'];

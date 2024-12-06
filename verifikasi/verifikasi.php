@@ -252,6 +252,10 @@ $headerTable = "- Polisi Resort Aceh -"
                         </tbody>
                         
                     </table>
+                    <?php if($min == 100){
+                        $min = 0;
+                        $min_file = 0;
+                    }?>
                     <div class="" style="display:flex; width:100%; justify-content:right; padding-right: 20px; color:#acaeb0; font-size:15px;">
                         <tr>
                         <th colspan="8" style="text-align: center;">--- Min </th>
