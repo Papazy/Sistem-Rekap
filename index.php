@@ -164,6 +164,15 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
 } else {
     $persentase_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
 }
+
+
+// mendapatkan data dari table verifikasi
+$table_verifikasi = 'verifikasi_' . $jenis;
+$query_verifikasi = mysqli_query($koneksi, "SELECT * FROM $table_verifikasi ");
+$total_verifikasi = mysqli_num_rows($query_verifikasi);
+
+
+
 ?>
 
 

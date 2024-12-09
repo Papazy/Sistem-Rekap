@@ -126,12 +126,35 @@
                         </div>
                     </li>
 
-                    <div>
-                        <a class="nav-link" href="<?= $main_url ?>verifikasi/verifikasi.php">
+                 
+
+                    <li>
+                        <button class="nav-link btn btn-toggle align-items-center rounded collapsed"
+                            data-bs-toggle="collapse" data-bs-target="#verifikasi-collapse" aria-expanded="true">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-folder"></i></div>
                             Verifikasi
-                        </a>
-                    </div>
+                        </button>
+                        <div class="collapse" id="verifikasi-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw- normal mb-0 small">
+                                <ul type="none">
+                                    <li>
+                                        <a class="nav-link" href="<?= $main_url ?>verifikasi/polda/verifikasi.php">
+                                            <div class="sb-nav-link-icon"><i class="fa-solid fa-building-columns"></i></div>
+                                            Polda
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul type="none">
+                                    <li>
+                                        <a class="nav-link" href="<?= $main_url ?>verifikasi/polres/verifikasi.php">
+                                            <div class="sb-nav-link-icon"><i class="fa-solid fa-landmark-dome"></i></div>
+                                            Polres
+                                        </a>
+                                    </li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </li>
 
                     <li>
                         <button class="nav-link btn btn-toggle align-items-center rounded collapsed"

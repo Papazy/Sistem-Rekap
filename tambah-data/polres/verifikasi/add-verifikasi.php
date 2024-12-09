@@ -83,6 +83,38 @@ require_once "../../../template/sidebar.php";
                                         </select>
                                     </div>
                                 </div>
+                                 <!-- Input Nilai Minimum -->
+                                 <div class="mb-3 row">
+                                        <label for="min" class="col-sm-2 col-form-label">Nilai Minimum</label>
+                                        <label class="col-sm-1 col-form-label">:</label>
+                                        <div class="col-sm-9" style="margin-left: -45px;">
+                                            <input type="number" step="0.01" name="min" id="min" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <!-- Input Nilai Maksimum -->
+                                    <div class="mb-3 row">
+                                        <label for="max" class="col-sm-2 col-form-label">Nilai Maksimum</label>
+                                        <label class="col-sm-1 col-form-label">:</label>
+                                        <div class="col-sm-9" style="margin-left: -45px;">
+                                            <input type="number" step="0.01" name="max" id="max" class="form-control" required>
+                                        </div>
+                                    </div>
+                                 <!-- Input Nilai Minimum File -->
+                                 <div class="mb-3 row">
+                                        <label for="min_file" class="col-sm-2 col-form-label">Minimum File</label>
+                                        <label class="col-sm-1 col-form-label">:</label>
+                                        <div class="col-sm-9" style="margin-left: -45px;">
+                                            <input type="number"  name="min_file" id="min_file" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <!-- Input Nilai Maksimum File -->
+                                    <div class="mb-3 row">
+                                        <label for="max_file" class="col-sm-2 col-form-label">Maksimum File</label>
+                                        <label class="col-sm-1 col-form-label">:</label>
+                                        <div class="col-sm-9" style="margin-left: -45px;">
+                                            <input type="number" name="max_file" id="max_file" class="form-control" required>
+                                        </div>
+                                    </div>
                                 <div class="mb-3 row">
                                     <label for="Tw" class="col-sm-2 col-form-label">Triwulan</label>
                                     <label for="Tw" class="col-sm-1 col-form-label">:</label>
@@ -99,6 +131,7 @@ require_once "../../../template/sidebar.php";
                                             ?>
                                         </select>
                                     </div>
+                                   
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,14 @@
+* ubah dashboard untuk dapatkan data dari table
+* min max (pergiat)
+* min max (A-Z) tulis sendiri (buat database)
+* min max (triwulan) tulis sendiri (buat database)
+* data polda (ganti polres jadi satker)
+
+* buat table batasan dengan atribut
+- id
+- jenis (triwulan, program)
+- min
+- max
+
+* tambah min max pada setiap file program giat yang di upload
+* kasih warna merah untuk yang ga lewat min-max
