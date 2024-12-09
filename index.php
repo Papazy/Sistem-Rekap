@@ -14,7 +14,7 @@ require_once "utils2.php";
 
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-require_once "template/navbar.php";
+// require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $TRIWULAN_SELECTED = "None";
@@ -168,9 +168,31 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
 
 // mendapatkan data dari table verifikasi
 $table_verifikasi = 'verifikasi_' . $jenis;
-$query_verifikasi = mysqli_query($koneksi, "SELECT * FROM $table_verifikasi ");
+$query_verifikasi = mysqli_query($koneksi, "SELECT * FROM $table_verifikasi GROUP BY " . $satker . " ORDER BY " . $satker . " ASC");
 $total_verifikasi = mysqli_num_rows($query_verifikasi);
 
+// mengolah data menjadi array
+$verifikasi = array();
+while ($data = mysqli_fetch_assoc($query_verifikasi)) {
+    $verifikasi[] = $data;
+}
+
+$LABELS = array();
+$DATA = array();
+$BACKGROUND_COLOR = array();
+$BORDER_COLOR = array();
+$BORDER_WIDTH = 1;
+
+foreach ($verifikasi as $data) {
+    $LABELS[] = $data[$satker];
+    $DATA[] = $data['Persentase'];
+    $BACKGROUND_COLOR[] = 'rgba(255, 99, 132, 0.2)';
+    $BORDER_COLOR[] = 'rgba(255, 99, 132, 1)';
+}
+
+// echo "<pre><br><br><br><br><br><br><br><br><br><br>";
+// print_r($verifikasi[0]);
+// echo "</pre>";
 
 
 ?>
