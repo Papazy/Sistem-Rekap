@@ -30,7 +30,7 @@ function hitungPersentaseDariPeriode( $DAERAH, $PERIODE, $KATEGORI)
         
         while ($data = mysqli_fetch_array($queryNilai)) {
             $program = $data["program"];
-            $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE DATE(Periode) = '{$PERIODE}' AND program ='$program'");
+            $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE DATE(Periode) = '{$PERIODE}' ");
             while ($datas = mysqli_fetch_array($queryMinMax)) {
                 $Min = $datas['Min'];
                 $Max = $datas['Max'];
@@ -83,7 +83,7 @@ function hitungPersentaseDariTriwulan( $DAERAH, $TRIWULAN, $KATEGORI)
         while ($data = mysqli_fetch_array($queryNilai)) {
             $periode = $data['Periode'];
             $program = $data["program"];
-            $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE DATE(Periode) = '{$periode}' AND program ='$program'");
+            $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE DATE(Periode) = '{$periode}' ");
 
             while ($datas = mysqli_fetch_array($queryMinMax)) {
                 $Min = $datas['Min'];

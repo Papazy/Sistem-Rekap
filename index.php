@@ -92,16 +92,15 @@ echo "<script>console.log(" . json_encode($NILAI_POLRES_ALL) . ");</script>";
 
 $Min = 0;
 $Max = 0;
-if ($periode_select == "None") {
-    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
-} else {
-    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE DATE(Periode) = '{$periode_select}'");
-}
+
+$queryMinMax = mysqli_query($koneksi, "SELECT min, max FROM batasan WHERE nama ='Triwulan {$TRIWULAN_SELECTED}'");
 while ($data = mysqli_fetch_array($queryMinMax)) {
-    $Min = $data['Min'];
-    $Max = $data['Max'];
+    $Min = $data['min'];
+    $Max = $data['max'];
     break;
 }
+
+
 
 // var_dump($Min);
 // print_r("<br>");
@@ -109,21 +108,6 @@ while ($data = mysqli_fetch_array($queryMinMax)) {
 // print_r("<br>");
 // var_dump($NILAI_POLRES_ALL);
 // print_r("<br>");
-
-$backgroundColorArray = array();
-foreach ($NILAI_POLRES_ALL as $nilai) {
-    if ($nilai >= $Max) {
-        $backgroundColorArray[] = 'rgba(0, 255, 0, 0.5)'; // Hijau
-    } elseif ($nilai > $Min) {
-        $backgroundColorArray[] = 'rgba(255, 255, 0, 0.5)'; // Kuning
-    } else {
-        $backgroundColorArray[] = 'rgba(255, 0, 0, 0.5)'; // Merah
-    }
-}
-
-// var_dump($backgroundColorArray);
-
-
 // Menghitung NIlai Kartu
 // POLRES
 $polres_merah = 0;
@@ -134,27 +118,45 @@ $polda_merah = 0;
 $polda_kuning = 0;
 $polda_hijau = 0;
 
-if ($periode_select != "None") {
-    $polres_merah = hitungPersentaseDariPeriode("Polres", $periode_select, "Merah");
-    $polres_kuning = hitungPersentaseDariPeriode("Polres", $periode_select, "Kuning");
-    $polres_hijau = hitungPersentaseDariPeriode("Polres", $periode_select, "Hijau");
-    // POLDA
-
-    $polda_merah = hitungPersentaseDariPeriode("Polda", $periode_select, "Merah");
-    $polda_kuning = hitungPersentaseDariPeriode("Polda", $periode_select, "Kuning");
-    $polda_hijau = hitungPersentaseDariPeriode("Polda", $periode_select, "Hijau");
-
-
-} else {
-    $polres_merah = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Merah");
-    $polres_kuning = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Kuning");
-    $polres_hijau = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Hijau");
-    // POLDA
-
-    $polda_merah = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Merah");
-    $polda_kuning = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Kuning");
-    $polda_hijau = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Hijau");
+$backgroundColorArray = array();
+foreach ($NILAI_POLRES_ALL as $nilai) {
+    if ($nilai >= $Max) {
+        $backgroundColorArray[] = 'rgba(0, 255, 0, 0.5)'; // Hijau
+        $polres_hijau++;
+    } elseif ($nilai > $Min) {
+        $backgroundColorArray[] = 'rgba(255, 255, 0, 0.5)'; // Kuning
+        $polres_kuning++;
+    } else {
+        $backgroundColorArray[] = 'rgba(255, 0, 0, 0.5)'; // Merah
+        $polres_merah++;
+    }
 }
+
+// var_dump($backgroundColorArray);
+
+
+
+// if ($periode_select != "None") {
+//     $polres_merah = hitungPersentaseDariPeriode("Polres", $periode_select, "Merah");
+//     $polres_kuning = hitungPersentaseDariPeriode("Polres", $periode_select, "Kuning");
+//     $polres_hijau = hitungPersentaseDariPeriode("Polres", $periode_select, "Hijau");
+//     // POLDA
+
+//     $polda_merah = hitungPersentaseDariPeriode("Polda", $periode_select, "Merah");
+//     $polda_kuning = hitungPersentaseDariPeriode("Polda", $periode_select, "Kuning");
+//     $polda_hijau = hitungPersentaseDariPeriode("Polda", $periode_select, "Hijau");
+
+
+// } else {
+//     $polres_merah = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Merah");
+//     $polres_kuning = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Kuning");
+//     $polres_hijau = hitungPersentaseDariTriwulan("Polres", $TRIWULAN_SELECTED, "Hijau");
+//     // POLDA
+
+//     $polda_merah = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Merah");
+//     $polda_kuning = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Kuning");
+//     $polda_hijau = hitungPersentaseDariTriwulan("Polda", $TRIWULAN_SELECTED, "Hijau");
+// }
 
 // print_r("<br>");
 // var_dump($polres_merah);
