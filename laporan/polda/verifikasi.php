@@ -3,17 +3,17 @@
 session_start();
 
 if (!isset($_SESSION['ssLogin'])) {
-    header("location: ../auth/login.php");
+    header("location: ../../auth/login.php");
     exit;
 }
 
-require_once "../config/conn.php";
-require_once "../user/function/functions.php";
+require_once "../../config/conn.php";
+require_once "../../user/function/functions.php";
 
 $title = "Varifikasi - Sistem Evaluasi";
-require_once "../template/header.php";
-require_once "../template/navbar.php";
-require_once "../template/sidebar.php";
+require_once "../../template/header.php";
+require_once "../../template/navbar.php";
+require_once "../../template/sidebar.php";
 $headerTable = "- Polisi Resort Aceh -"
 ?>
 
@@ -32,15 +32,15 @@ $headerTable = "- Polisi Resort Aceh -"
         </form>
 
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Verifikasi Polres</h1>
+            <h1 class="mt-4">Verifikasi Polda</h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="../../index.php">Home</a></li>
                 <li class="breadcrumb-item active">Verifikasi</li>
             </ol>
             <div class="card">
                 <div class="card-header d-inline-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center justify-content-start">
-                        <span class="h5 my-2 d-flex align-items-center " style="width: 150px;"><i class="fa-solid fa-list me-2"></i> Data Polres</span>
+                        <span class="h5 my-2 d-flex align-items-center " style="width: 150px;"><i class="fa-solid fa-list me-2"></i> Data Polda</span>
                         <div class="d-flex align-items-center gap-2">
                             <!-- Dropdown Triwulan -->
                             <select
@@ -52,11 +52,25 @@ $headerTable = "- Polisi Resort Aceh -"
                                 style="width: 150px;">
                                 <option value="" disabled selected style="color:white">Triwulan</option>
                                 <?php
-                                for ($i = 1; $i < 5; $i++) {
+                                // Array untuk teks triwulan
+                                $triwulanTexts = ['TW I', 'TW II', 'TW III', 
+                                                  'TW IV', 'TW V', 'TW VI',
+                                                  'TW VII', 'TW VIII', 'TW IX'];
+
+                                // Hitung triwulan saat ini
+                                $currentMonth = date('n'); // Mendapatkan bulan saat ini (1-12)
+                                $currentTriwulan = ceil($currentMonth / 3); // Membagi bulan menjadi triwulan (1-4)
+
+                                // Pastikan triwulan tidak melebihi jumlah yang ada
+                                $currentTriwulan = min($currentTriwulan, count($triwulanTexts));
+
+                                for ($i = 1; $i <= count($triwulanTexts); $i++) {
+                                    // Tetapkan opsi "selected" untuk triwulan saat ini secara otomatis jika tidak ada input dari GET
                                     $selected = (isset($_GET['triwulan']) && $_GET['triwulan'] == $i) ? 'selected' : '';
-                                    echo "<option value='$i' $selected>$i</option>";
+                                    echo "<option value='$i' $selected>{$triwulanTexts[$i - 1]}</option>";
                                 }
                                 ?>
+
                             </select>
                             <!-- Dropdown Program -->
                             <select
@@ -103,8 +117,11 @@ $headerTable = "- Polisi Resort Aceh -"
                         <!-- fitur filter select -->
 
                         <?php if (userLogin()['role'] == 1) { ?>
-                            <a href="<?= $main_url ?>tambah-data/polres/verifikasi/add-verifikasi.php"
-                                class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
+                            <a href="<?= $main_url ?>verifikasi/polda/batasan.php"
+                                class="btn btn-sm btn-secondary pe-2"><i class="fa-solid fa-plus-minus"></i> Batasan</a>
+
+                            <a href="<?= $main_url ?>tambah-data/polda/verifikasi/add-verifikasi.php"
+                                class="btn btn-sm btn-primary float-end ms-2"><i class="fa-solid fa-plus"></i> Tambah</a>
                         <?php } ?>
                     </div>
                 </div>
@@ -117,7 +134,7 @@ $headerTable = "- Polisi Resort Aceh -"
                                     <center>Polda</center>
                                 </th>
                                 <th scope="col">
-                                    <center>Polres</center>
+                                    <center>Satker</center>
                                 </th>
                                 <th scope="col">
                                     <center>Sudah Diupload</center>
@@ -166,10 +183,10 @@ $headerTable = "- Polisi Resort Aceh -"
                             $program = isset($_GET['program']) ? $_GET['program'] : '';
                             $giat = isset($_GET['giat']) ? $_GET['giat'] : '';
 
-                            $query = "SELECT Polda, Polres, SUM(Sudah_diupload) AS Total_diupload, SUM(Sudah_diverifikasi) AS Total_diverifikasi, 
+                            $query = "SELECT Polda, Satker, SUM(Sudah_diupload) AS Total_diupload, SUM(Sudah_diverifikasi) AS Total_diverifikasi, 
                     SUM(Belum_diverifikasi) AS Total_belum_diverifikasi, SUM(Ditolak) AS Total_ditolak, 
-                    SUM(Ditolak_akumulasi) AS Total_ditolak_akumulasi
-                  FROM verifikasi_polres 
+                    SUM(Ditolak_akumulasi) AS Total_ditolak_akumulasi, min, max, min_file, max_file
+                  FROM verifikasi_polda 
                   WHERE 1=1";
 
                             if (!empty($triwulan)) {
@@ -182,7 +199,7 @@ $headerTable = "- Polisi Resort Aceh -"
                                 $query .= " AND giat = '$giat'";
                             }
 
-                            $query .= " GROUP BY Polres ORDER BY Polres";
+                            $query .= " GROUP BY Polda ORDER BY Polda";
 
                             $queryPersentase = mysqli_query($koneksi, $query);
 
@@ -190,31 +207,26 @@ $headerTable = "- Polisi Resort Aceh -"
 
                             $no = 1;
                             while ($dataPersentase = mysqli_fetch_array($queryPersentase)) {
+                                // echo "<pre>";
+                                // print_r($dataPersentase);
+                                // echo "</pre>";
+                                // break;
                                 $Polda              = $dataPersentase["Polda"];
-                                $Polres             = $dataPersentase["Polres"];
+                                $Satker             = $dataPersentase["Satker"];
                                 $Total_diupload     = $dataPersentase["Total_diupload"];
                                 $Total_diverifikasi = $dataPersentase["Total_diverifikasi"];
                                 $Total_belum_diverifikasi = $dataPersentase["Total_belum_diverifikasi"];
                                 $Total_ditolak      = $dataPersentase["Total_ditolak"];
                                 $Total_ditolak_akumulasi = $dataPersentase["Total_ditolak_akumulasi"];
+                                $min = $dataPersentase["min"];
+                                $max = $dataPersentase["max"];
+                                $min_file = $dataPersentase["min_file"];
+                                $max_file = $dataPersentase["max_file"];
 
 
-                                if ($Total_diverifikasi < $min_file) {
-                                    $min_file = $Total_diverifikasi;
-                                }
-                                if ($Total_diverifikasi > $max_file) {
-                                    $max_file = $Total_diverifikasi;
-                                }
-
+                              
                                 // Hitung Persentase
                                 $Persentase = ($MaxPersentase * $Total_diverifikasi) / $MaxSudahUpload;
-
-                                if ($Persentase > $max) {
-                                    $max = $Persentase;
-                                }
-                                if ($Persentase < $min) {
-                                    $min = $Persentase;
-                                }
 
 
 
@@ -227,7 +239,7 @@ $headerTable = "- Polisi Resort Aceh -"
                                         <center><?= $Polda ?></center>
                                     </td>
                                     <td>
-                                        <center><?= $Polres ?></center>
+                                        <center><?= $Satker ?></center>
                                     </td>
                                     <td>
                                         <center><?= $Total_diupload ?></center>
@@ -280,7 +292,7 @@ $headerTable = "- Polisi Resort Aceh -"
             // console.log(userid);
             // AJAX request
             $.ajax({
-                url: 'modal_edit_polres.php',
+                url: 'modal_edit_polda.php',
                 type: 'post',
                 data: {
                     id: id
@@ -298,7 +310,7 @@ $headerTable = "- Polisi Resort Aceh -"
 
             var id = $(this).data('id');
             $.ajax({
-                url: 'modal_hapus_polres.php',
+                url: 'modal_hapus_polda.php',
                 type: 'post',
                 data: {
                     id: id
@@ -316,65 +328,48 @@ $headerTable = "- Polisi Resort Aceh -"
 
     <!-- script filter -->
     <script>
-        function updateTriwulan() {
-            var triwulan = document.getElementById("triwulan").value;
-            var giat = document.getElementById("giat");
-
-            // Jika triwulan disetel ke default, hapus semua filter
-            if (!triwulan) {
-                window.location.href = "?";
-                return;
-            }
-
-            // Jika triwulan dipilih, perbarui URL
-            window.location.href = "?triwulan=" + triwulan;
+    function updateURLParameter(param, value) {
+        var url = new URL(window.location.href);
+        if (value) {
+            url.searchParams.set(param, value);
+        } else {
+            url.searchParams.delete(param);
         }
+        window.location.href = url.toString();
+    }
 
-        function updateProgram() {
-            var program = document.getElementById("program").value;
-            var giat = document.getElementById("giat");
+    function updateTriwulan() {
+        var triwulan = document.getElementById("triwulan").value;
+        updateURLParameter("triwulan", triwulan);
+    }
 
-            // Jika Program disetel ke default, hapus semua filter
-            if (!program) {
-                window.location.href = "?";
-                return;
-            }
+    function updateProgram() {
+        var program = document.getElementById("program").value;
+        updateURLParameter("program", program);
 
-            // Jika Program dipilih, perbarui URL
-            window.location.href = "?program=" + program;
-        }
+        // Aktifkan atau nonaktifkan dropdown Giat berdasarkan Program
+        var giat = document.getElementById("giat");
+        giat.disabled = !program;
+    }
 
-        // Fungsi untuk memperbarui URL saat giat dipilih
-        function updateGiat() {
-            var program = document.getElementById("program").value;
-            var giat = document.getElementById("giat").value;
+    function updateGiat() {
+        var giat = document.getElementById("giat").value;
+        updateURLParameter("giat", giat);
+    }
 
-            // Jika Giat disetel ke default, hapus semua filter
-            if (!giat) {
-                window.location.href = "?";
-                return;
-            }
+    document.addEventListener("DOMContentLoaded", function () {
+        var program = document.getElementById("program").value;
+        var giat = document.getElementById("giat");
 
-            // Jika Giat dipilih, pastikan Program juga sudah dipilih
-            if (program) {
-                window.location.href = "?program=" + program + "&giat=" + giat;
-            }
-        }
-
-        // Aktifkan dropdown Giat jika Program sudah dipilih
-        document.addEventListener("DOMContentLoaded", function() {
-            var program = document.getElementById("program").value;
-            var giat = document.getElementById("giat");
-
-            // Jika Program dipilih, aktifkan dropdown Giat
-            giat.disabled = !program;
-        });
-    </script>
+        // Aktifkan atau nonaktifkan dropdown Giat berdasarkan Program
+        giat.disabled = !program;
+    });
+</script>
 
 
     <?php
 
-    require_once "../template/footer.php";
+    require_once "../../template/footer.php";
 
     ?>
     <!-- <?php if (userLogin()['role'] == 1) { ?>

@@ -14,7 +14,7 @@ require_once "utils2.php";
 
 $title = "Dashboard - Sistem Evaluasi Polres";
 require_once "template/header.php";
-require_once "template/navbar.php";
+// require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
 $TRIWULAN_SELECTED = "None";
@@ -30,10 +30,14 @@ $jenis = $DAERAH == "Polda" ? "polda" : "polres";
 $satker = $DAERAH == "Polda" ? "Satker" : "Polres";
 
 
-$queryLaporan = mysqli_query($koneksi, "SELECT * FROM laporan_" . $jenis . "");
+$queryLaporan = mysqli_query($koneksi, "SELECT * FROM verifikasi_" . $jenis . "");
 $totalLaporan = mysqli_num_rows($queryLaporan);
 
-$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM laporan_" . $jenis . " WHERE Triwulan='{$TRIWULAN_SELECTED}' ");
+
+// Seluruh Variabel Filter
+
+
+$queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM verifikasi_" . $jenis . " WHERE Triwulan='{$TRIWULAN_SELECTED}' ");
 
 $PERIODE_ALL = array();
 while ($periode = mysqli_fetch_array($queryPeriode)) {
@@ -49,11 +53,12 @@ if (count($PERIODE_ALL) > 0) {
     }
 }
 
-if ($periode_select == "None") {
+echo "<script>console.log(" . json_encode($periode_select) . ");</script>";
 
-    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
+if ($periode_select == "None") {
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM verifikasi_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
 } else {
-    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM persentase_" . $jenis . " WHERE Periode = '{$periode_select}'");
+    $queryPG = mysqli_query($koneksi, "SELECT DISTINCT " . $satker . " FROM verifikasi_" . $jenis . " WHERE DATE(Periode) = '{$periode_select}'");
 }
 $POLRES_ALL = array();
 $i = 0;
@@ -66,9 +71,11 @@ $NILAI_POLRES_ALL = array();
 
 foreach ($POLRES_ALL as $satuan) {
     if ($periode_select == "None") {
-        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Triwulan ='{$TRIWULAN_SELECTED}'");
+        $queryNilai = mysqli_query($koneksi, "SELECT * FROM verifikasi_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Triwulan ='{$TRIWULAN_SELECTED}'");
     } else {
-        $queryNilai = mysqli_query($koneksi, "SELECT * FROM persentase_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Periode = '{$periode_select}'");
+        $query = "SELECT * FROM verifikasi_" . $jenis . " WHERE " . $satker . " = '$satuan' AND Date(Periode) = '{$periode_select}'";
+        echo "<script>console.log(" . json_encode($query) . ");</script>";
+        $queryNilai = mysqli_query($koneksi, $query );
     }
     $nilai = 0;
     $jumlah = 0;
@@ -79,15 +86,16 @@ foreach ($POLRES_ALL as $satuan) {
     if ($jumlah != 0) {
         $NILAI_POLRES_ALL[] = $nilai / $jumlah;
     }
-
 }
+
+echo "<script>console.log(" . json_encode($NILAI_POLRES_ALL) . ");</script>";
 
 $Min = 0;
 $Max = 0;
 if ($periode_select == "None") {
-    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
+    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE Triwulan ='{$TRIWULAN_SELECTED}'");
 } else {
-    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM laporan_" . $jenis . " WHERE Periode = '{$periode_select}'");
+    $queryMinMax = mysqli_query($koneksi, "SELECT Min, Max FROM verifikasi_" . $jenis . " WHERE DATE(Periode) = '{$periode_select}'");
 }
 while ($data = mysqli_fetch_array($queryMinMax)) {
     $Min = $data['Min'];
@@ -160,9 +168,9 @@ if ($polres_hijau == 0 && $polres_kuning == 0 && $polres_merah == 0) {
 }
 
 if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
-    $persentase_polda = 0;
+    $verifikasi_polda = 0;
 } else {
-    $persentase_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
+    $verifikasi_polda = $polda_hijau / ($polda_hijau + $polda_kuning + $polda_merah) * 100;
 }
 ?>
 
@@ -298,7 +306,7 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                             <h4>Polda</h4>
                         </div>
                         <div>
-                            <?= number_format($persentase_polda, 2) ?>%
+                            <?= number_format($verifikasi_polda, 2) ?>%
                         </div>
                     </div>
                     <div class="card-body border-top border-dark d-flex align-items-center justify-content-between"
@@ -363,9 +371,9 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                                 <?php
                                 // Mengambil data triwulan sesuai dengan pilihan daerah (Polda atau Polres)
                                 if ($DAERAH == "Polda") {
-                                    $queryTriwulan = mysqli_query($koneksi, "SELECT DISTINCT Triwulan FROM persentase_polda");
+                                    $queryTriwulan = mysqli_query($koneksi, "SELECT DISTINCT Triwulan FROM verifikasi_polda");
                                 } else if ($DAERAH == "Polres") {
-                                    $queryTriwulan = mysqli_query($koneksi, "SELECT DISTINCT Triwulan FROM persentase_polres");
+                                    $queryTriwulan = mysqli_query($koneksi, "SELECT DISTINCT Triwulan FROM verifikasi_polres");
                                 }
                                 
                                 // Menampilkan opsi Triwulan sesuai dengan data yang diambil
@@ -381,15 +389,24 @@ if ($polda_hijau == 0 && $polda_kuning == 0 && $polda_merah == 0) {
                                 <?php
                                 // Mengambil periode sesuai dengan pilihan daerah (Polda atau Polres) dan Triwulan yang dipilih
                                 if ($DAERAH == "Polda") {
-                                    $queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM persentase_polda WHERE Triwulan = '$TRIWULAN_SELECTED'");
+                                    $queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM verifikasi_polda WHERE Triwulan = '$TRIWULAN_SELECTED'");
                                 } else if ($DAERAH == "Polres") {
-                                    $queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM persentase_polres WHERE Triwulan = '$TRIWULAN_SELECTED'");
+                                    $queryPeriode = mysqli_query($koneksi, "SELECT DISTINCT Periode FROM verifikasi_polres WHERE Triwulan = '$TRIWULAN_SELECTED'");
                                 }
 
+                                $filteredPeriode = array();
                                 // Menampilkan opsi Periode sesuai dengan data yang diambil
-                                while ($periode = mysqli_fetch_assoc($queryPeriode)) {
-                                    $selected = ($periode['Periode'] == $periode_select) ? 'selected' : '';
-                                    echo "<option value='{$periode['Periode']}&triwulan={$TRIWULAN_SELECTED}&d={$DAERAH}' $selected>" . date("d-m-Y", strtotime($periode['Periode'])) . "</option>";
+                                while($periode = mysqli_fetch_assoc($queryPeriode)) {
+                                    // memfilter $periode
+                                    $periode = date("Y-m-d", strtotime($periode['Periode']));
+                                    if (!in_array($periode, $filteredPeriode)) {
+                                        $filteredPeriode[] = $periode;
+                                    }
+                                }
+
+                                foreach ($filteredPeriode as $periode) {
+                                    $selected = ($periode == $periode_select) ? 'selected' : '';
+                                    echo "<option value='{$periode}&d={$DAERAH}&triwulan={$TRIWULAN_SELECTED}' $selected>$periode</option>";
                                 }
                                 ?>
                             </select>

@@ -81,7 +81,7 @@
                             <ul class="btn-toggle-nav list-unstyled fw-normal mb-0 small">
                                 <ul type="none">
                                     <li>
-                                        <a class="nav-link" href="<?= $main_url ?>laporan/polda.php">
+                                        <a class="nav-link" href="<?= $main_url ?>laporan/polda/polda.php">
                                             <div class="sb-nav-link-icon"><i class="fa-solid fa-building-columns"></i></div>
                                             Polda
                                         </a>
@@ -89,7 +89,7 @@
                                 </ul>
                                 <ul type="none">
                                     <li>
-                                        <a class="nav-link" href="<?= $main_url ?>laporan/polres.php">
+                                        <a class="nav-link" href="<?= $main_url ?>laporan/polres/polres.php">
                                             <div class="sb-nav-link-icon"><i class="fa-solid fa-landmark-dome"></i></div>
                                             Polres
                                         </a>
@@ -125,45 +125,16 @@
                             </ul>
                         </div>
                     </li>
-
-                    <div>
-                        <a class="nav-link" href="<?= $main_url ?>verifikasi/verifikasi.php">
-                            <div class="sb-nav-link-icon"><i class="fa-regular fa-folder"></i></div>
-                            Verifikasi
-                        </a>
-                    </div>
-
-                    <li>
-                        <button class="nav-link btn btn-toggle align-items-center rounded collapsed"
-                            data-bs-toggle="collapse" data-bs-target="#kegiatan-collapse" aria-expanded="true">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
-                            Kegiatan
-                        </button>
-                        <div class="collapse" id="kegiatan-collapse">
-                            <ul class="btn-toggle-nav list-unstyled fw- normal mb-0 small">
-                                <ul type="none">
-                                    <li>
-                                        <a class="nav-link" href="<?= $main_url ?>kegiatan/polda/kegiatan.php">
-                                            <div class="sb-nav-link-icon"><i class="fa-solid fa-building-columns"></i></div>
-                                            Polda
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul type="none">
-                                    <li>
-                                        <a class="nav-link" href="<?= $main_url ?>kegiatan/polres/kegiatan.php">
-                                            <div class="sb-nav-link-icon"><i class="fa-solid fa-landmark-dome"></i></div>
-                                            Polres
-                                        </a>
-                                    </li>
-                                </ul>
-                            </ul>
-                        </div>
-                    </li>
                     <div>
                         <a class="nav-link" href="<?= $main_url ?>triwulan/triwulan.php">
                             <div class="sb-nav-link-icon"><i class="fa-regular fa-clock"></i></div>
                             Triwulan
+                        </a>
+                    </div>
+                    <div>
+                        <a class="nav-link" href="<?= $main_url ?>program-giat/pg.php">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            Program Giat
                         </a>
                     </div>
                 </div>

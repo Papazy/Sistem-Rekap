@@ -3,19 +3,26 @@
 session_start();
 
 if (!isset($_SESSION['ssLogin'])) {
-    header("location: ../auth/login.php");
+    header("location: ../../auth/login.php");
     exit;
 }
 
-require_once "../config/conn.php";
-require_once "../user/function/functions.php";
+require_once "../../config/conn.php";
+require_once "../../user/function/functions.php";
 
 $title = "Varifikasi - Sistem Evaluasi";
-require_once "../template/header.php";
-require_once "../template/navbar.php";
-require_once "../template/sidebar.php";
-$headerTable = "- Polisi Resort Aceh -"
+require_once "../../template/header.php";
+require_once "../../template/navbar.php";
+require_once "../../template/sidebar.php";
+$headerTable = "- Polisi Resort Aceh -";
+
+// defaultnya akan mengarahkan ke triwulan saat ini
+if(!isset($_GET['triwulan'])){
+    $triwulan = ceil(date('n') / 3);
+    echo "<script>location.href='polres.php?triwulan=$triwulan';</script>";
+}
 ?>
+
 
 <div id="layoutSidenav_content">
     <main>
@@ -32,10 +39,10 @@ $headerTable = "- Polisi Resort Aceh -"
         </form>
 
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Verifikasi Polres</h1>
+            <h1 class="mt-4">Polres</h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
-                <li class="breadcrumb-item active">Verifikasi</li>
+                <li class="breadcrumb-item"><a href="../../index.php">Home</a></li>
+                <li class="breadcrumb-item active">Polres</li>
             </ol>
             <div class="card">
                 <div class="card-header d-inline-flex justify-content-between align-items-center">
@@ -49,17 +56,23 @@ $headerTable = "- Polisi Resort Aceh -"
                                 name="triwulan"
                                 aria-placeholder="Triwulan"
                                 onchange="updateDropdown('triwulan')"
-                                style="width: 100px; cursor:pointer;">
+                                style="width: 110px; cursor:pointer;">
                                 <option value="" disabled selected>Triwulan</option>
                                 <?php
+                                // Triwulan yang tersedia
                                 $triwulanTexts = ['TW I', 'TW II', 'TW III', 'TW IV', 'TW V', 'TW VI', 'TW VII', 'TW VIII'];
+
+                                // Menentukan triwulan aktif berdasarkan bulan saat ini
                                 $currentTriwulan = ceil(date('n') / 3);
+
+                                // Loop untuk menampilkan semua triwulan
                                 foreach ($triwulanTexts as $index => $text) {
                                     $selected = ($index + 1 == $currentTriwulan) ? 'selected' : '';
                                     echo "<option value='" . ($index + 1) . "' $selected>$text</option>";
                                 }
                                 ?>
                             </select>
+
 
                             <!-- Dropdown Periode -->
                             <select
@@ -103,9 +116,9 @@ $headerTable = "- Polisi Resort Aceh -"
                                 if (isset($_GET['periode'])) {
                                     $selectedPeriode = $_GET['periode'];
                                     $queryJam = "SELECT DISTINCT DATE_FORMAT(Periode, '%H:%i:%s') AS jam 
-                                                 FROM verifikasi_polres 
-                                                 WHERE DATE_FORMAT(Periode, '%Y-%m-%d') = '$selectedPeriode' 
-                                                 ORDER BY jam";
+                                                FROM verifikasi_polres 
+                                                WHERE DATE_FORMAT(Periode, '%Y-%m-%d') = '$selectedPeriode' 
+                                                ORDER BY jam";
                                     $resultJam = mysqli_query($koneksi, $queryJam);
 
                                     while ($rowJam = mysqli_fetch_assoc($resultJam)) {
@@ -117,23 +130,29 @@ $headerTable = "- Polisi Resort Aceh -"
                                 ?>
                             </select>
 
+
                             <!-- Dropdown Program -->
-                            <select class="form-select" id="program" name="program" aria-placeholder="Program" style="width: 120px; cursor:pointer;">
-                                <option value="" selected>Program</option>
+                            <select
+                                class="form-select"
+                                id="program"
+                                name="program"
+                                aria-placeholder="Program"
+                                onchange="updateDropdown('program')"
+                                style="width: 120px; cursor:pointer;">
+                                <option value="" disabled selected>Program</option>
                                 <?php
-                                if (isset($_GET['jam'])) {
-                                    $selectedJam = $_GET['jam'];
-                                    $queryProgram = "SELECT DISTINCT program.id_program, program.nama_program 
-                                                     FROM program 
-                                                     INNER JOIN verifikasi_polres 
-                                                     ON program.id_program = verifikasi_polres.id_program 
-                                                     WHERE DATE_FORMAT(verifikasi_polres.Periode, '%H:%i:%s') = '$selectedJam' 
-                                                     ORDER BY program.nama_program";
+                                if (isset($_GET['periode'])) {
+                                    $selectedPeriode = $_GET['periode'];
+                                    $queryProgram = "SELECT DISTINCT program.id, program.nama_program
+                                                    FROM program
+                                                    JOIN verifikasi_polres ON verifikasi_polres.program = program.id
+                                                    WHERE DATE_FORMAT(verifikasi_polres.Periode, '%Y-%m-%d') = '$selectedPeriode'
+                                                    ORDER BY program.nama_program";
                                     $resultProgram = mysqli_query($koneksi, $queryProgram);
 
                                     while ($rowProgram = mysqli_fetch_assoc($resultProgram)) {
-                                        $programId = $rowProgram['id_program'];
-                                        $programName = $rowProgram['nama_program'];
+                                        $programId = $rowProgram['id'];
+                                        $programName = $rowProgram['nama_program'];  // Nama program
                                         $selected = (isset($_GET['program']) && $_GET['program'] == $programId) ? 'selected' : '';
                                         echo "<option value='{$programId}' {$selected}>{$programName}</option>";
                                     }
@@ -142,27 +161,38 @@ $headerTable = "- Polisi Resort Aceh -"
                             </select>
 
                             <!-- Dropdown Giat -->
-                            <select class="form-select" id="giat" name="giat" aria-placeholder="Giat" style="width: 100px; cursor:pointer;">
-                                <option value="" selected>Giat</option>
+                            <select
+                                class="form-select"
+                                id="giat" name="giat"
+                                aria-placeholder="Giat"
+                                onchange="updateDropdown('giat')"
+                                style="width: 100px; cursor:pointer;">
+                                <?php if (!isset($_GET['program'])) echo 'disabled'; ?>
+                                <option value="" disabled selected>Giat</option>
                                 <?php
                                 if (isset($_GET['program'])) {
                                     $selectedProgram = $_GET['program'];
-                                    $queryGiat = "SELECT DISTINCT giat FROM verifikasi_polres 
-                                                  WHERE id_program = '$selectedProgram' 
-                                                  ORDER BY giat";
+                                    $queryGiat = "SELECT DISTINCT giat.id, giat.nama_giat
+                                                FROM giat 
+                                                JOIN verifikasi_polres  ON verifikasi_polres.giat = giat.id
+                                                WHERE verifikasi_polres.program = '$selectedProgram'
+                                                ORDER BY giat.nama_giat";
                                     $resultGiat = mysqli_query($koneksi, $queryGiat);
 
                                     while ($rowGiat = mysqli_fetch_assoc($resultGiat)) {
-                                        $giatName = $rowGiat['giat'];
-                                        $selected = (isset($_GET['giat']) && $_GET['giat'] == $giatName) ? 'selected' : '';
-                                        echo "<option value='{$giatName}' {$selected}>{$giatName}</option>";
+                                        $giatId = $rowGiat['id'];
+                                        $giatName = $rowGiat['nama_giat'];  // Nama giat
+                                        $selected = (isset($_GET['giat']) && $_GET['giat'] == $giatId) ? 'selected' : '';
+                                        echo "<option value='{$giatId}' {$selected}>{$giatName}</option>";
                                     }
                                 }
                                 ?>
                             </select>
 
+
+
                             <!-- Button untuk reset link kembali menjadi /verifikasi.php -->
-                            <a href="<?= $main_url ?>verifikasi/verifikasi.php" class="btn btn-sm btn-primary">Reset</a>
+                            <a href="<?= $main_url ?>laporan/polres/polres.php" class="btn btn-sm btn-primary">Reset</a>
                         </div>
                     </div>
 
@@ -172,7 +202,10 @@ $headerTable = "- Polisi Resort Aceh -"
                         <!-- fitur filter select -->
 
                         <?php if (userLogin()['role'] == 1) { ?>
-                            <a href="<?= $main_url ?>tambah-data/polres/verifikasi/add-verifikasi.php"
+                            <!-- fitur filter select -->
+                            <a href="<?= $main_url ?>laporan/polres/filter/batasan.php"
+                                class="btn btn-sm btn-warning pe-2" style="margin-right: 5px;" data-bs-toggle="tooltip" title="Klik untuk menambah atau mengurangi"><i class="fa-solid fa-plus-minus"></i></a>
+                            <a href="<?= $main_url ?>tambah-data/polres/add-polres.php"
                                 class="btn btn-sm btn-primary float-end"><i class="fa-solid fa-plus"></i> Tambah</a>
                         <?php } ?>
                     </div>
@@ -478,25 +511,15 @@ $headerTable = "- Polisi Resort Aceh -"
 
             // Event listener untuk perubahan Jam
             jamDropdown.addEventListener("change", function() {
-                // Pastikan Periode sudah dipilih
-                if (!periodeDropdown.value) {
-                    alert("Silakan pilih Periode terlebih dahulu.");
-                    this.value = ''; // Reset nilai Jam jika Periode belum dipilih
-                    return; // Batalkan perubahan jika Periode belum dipilih
-                }
-
-                // Reset dropdown Program dan Giat karena Jam berubah
                 resetDropdown(programDropdown);
                 resetDropdown(giatDropdown);
 
                 // Perbarui URL hanya jika nilai Jam benar-benar berubah
-                if (this.value !== getUrlParam('jam')) {
-                    updateUrl({
-                        triwulan: triwulanDropdown.value,
-                        periode: periodeDropdown.value,
-                        jam: this.value
-                    });
-                }
+                updateUrl({
+                    triwulan: triwulanDropdown.value,
+                    periode: periodeDropdown.value,
+                    jam: this.value
+                });
             });
 
             // Event listener untuk perubahan Program
@@ -511,13 +534,31 @@ $headerTable = "- Polisi Resort Aceh -"
                     program: this.value
                 });
             });
+
+            // Event listener untuk perubahan Giat
+            giatDropdown.addEventListener("change", function() {
+                // Memperbarui URL dengan parameter Triwulan, Periode, Jam, Program, dan Giat yang dipilih
+                updateUrl({
+                    triwulan: triwulanDropdown.value,
+                    periode: periodeDropdown.value,
+                    jam: jamDropdown.value,
+                    program: programDropdown.value,
+                    giat: this.value
+                });
+            });
         });
     </script>
-
+    <script>
+        // Aktifkan tooltip Bootstrap
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>   
 
     <?php
 
-    require_once "../template/footer.php";
+    require_once "../../template/footer.php";
 
     ?>
     <!-- <?php if (userLogin()['role'] == 1) { ?>

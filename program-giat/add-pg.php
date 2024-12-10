@@ -18,16 +18,16 @@ require_once "../template/sidebar.php";
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Tambah Triwulan</h1>
+            <h1 class="mt-4">Tambah Program Giat</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="../index.php">Home</a></li>
-                <li class="breadcrumb-item"><a href="triwulan.php">Triwulan</a></li>
-                <li class="breadcrumb-item active">Tambah Triwulan</li>
+                <li class="breadcrumb-item"><a href="pg.php">Program Giat</a></li>
+                <li class="breadcrumb-item active">Tambah Program Giat</li>
             </ol>
-            <form action="proses-triwulan.php" method="POST">
+            <form action="proses-pg.php" method="POST">
                 <div class="card">
                     <div class="card-header">
-                        <span class="h5 my-2"><i class="fa-regular fa-square-plus"></i> Triwulan</span>
+                        <span class="h5 my-2"><i class="fa-regular fa-square-plus"></i> Program Giat</span>
                         <button type="submit" name="simpan" class="btn btn-primary float-end"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
                         <button type="reset" name="reset" id="resetButton" class="btn btn-danger float-end me-2"><i class="fa-solid fa-rotate-left"></i> Reset</button>
                     </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Des 2024 pada 17.45
+-- Waktu pembuatan: 10 Des 2024 pada 18.07
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -20,6 +20,122 @@ SET time_zone = "+00:00";
 --
 -- Database: `evaluasi`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `batasan`
+--
+
+CREATE TABLE `batasan` (
+  `id` int(11) NOT NULL,
+  `satuan` varchar(25) NOT NULL,
+  `nama` varchar(25) NOT NULL,
+  `min` float NOT NULL,
+  `max` float NOT NULL,
+  `min_file` int(11) NOT NULL,
+  `max_file` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `batasan`
+--
+
+INSERT INTO `batasan` (`id`, `satuan`, `nama`, `min`, `max`, `min_file`, `max_file`) VALUES
+(3, 'Polda', 'A', 2.33, 3, 1, 4),
+(4, 'Polda', 'B', 0.01, 0, 1, 3),
+(5, 'Polda', 'C', 0.01, 0.03, 1, 3),
+(7, 'Polres', 'A', 20.33, 30.21, 23, 34);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `giat`
+--
+
+CREATE TABLE `giat` (
+  `id` int(11) NOT NULL,
+  `nama_giat` varchar(255) NOT NULL,
+  `program_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `giat`
+--
+
+INSERT INTO `giat` (`id`, `nama_giat`, `program_id`) VALUES
+(1, '1', 1),
+(2, '2', 1),
+(3, '3', 1),
+(4, '4', 1),
+(5, '1', 2),
+(6, '2', 2),
+(7, '3', 2),
+(8, '4', 2),
+(9, '5', 2),
+(10, '1', 3),
+(11, '2', 3),
+(12, '3', 3),
+(13, '4', 3),
+(14, '5', 3),
+(15, '6', 3),
+(16, '1', 4),
+(17, '2', 4),
+(18, '3', 4),
+(19, '4', 4),
+(20, '5', 4),
+(21, '1', 5),
+(22, '2', 5),
+(23, '3', 5),
+(24, '4', 5),
+(25, '1', 6),
+(26, '2', 6),
+(27, '3', 6),
+(28, '4', 6),
+(29, '5', 6),
+(30, '6', 6),
+(31, '7', 6),
+(32, '1', 19),
+(33, '2', 19),
+(34, '3', 19),
+(35, '4', 19),
+(36, '1', 20),
+(37, '2', 20),
+(38, '3', 20),
+(39, '4', 20),
+(40, '5', 20),
+(41, '1', 21),
+(42, '2', 21),
+(43, '3', 21),
+(44, '4', 21),
+(45, '5', 21),
+(46, '6', 21),
+(47, '1', 22),
+(48, '2', 22),
+(49, '3', 22),
+(50, '4', 22),
+(51, '5', 22),
+(52, '1', 23),
+(53, '2', 23),
+(54, '3', 23),
+(55, '4', 23),
+(56, '5', 23),
+(57, '6', 23),
+(58, '1', 24),
+(59, '2', 24),
+(60, '3', 24),
+(61, '4', 24),
+(62, '5', 24),
+(63, '1', 25),
+(64, '2', 25),
+(65, '3', 25),
+(66, '4', 25),
+(67, '5', 25),
+(68, '6', 25),
+(69, '1', 26),
+(70, '2', 26),
+(71, '3', 26),
+(72, '4', 26);
 
 -- --------------------------------------------------------
 
@@ -45,85 +161,6 @@ INSERT INTO `judul_riwayat` (`id`, `judul`, `tanggal`) VALUES
 (15, 'Patroli lalu lintas', '2024-10-16'),
 (16, '533', '2024-10-16'),
 (17, 'Sistem Evaluasi ', '2024-11-06');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `kegiatan_polda`
---
-
-CREATE TABLE `kegiatan_polda` (
-  `id` int(11) NOT NULL,
-  `PG` varchar(255) NOT NULL,
-  `nama_kegiatan` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `kegiatan_polda`
---
-
-INSERT INTO `kegiatan_polda` (`id`, `PG`, `nama_kegiatan`) VALUES
-(1, 'A11', 'Optimalisasi pelaksanaan tatap muka/sambang oleh Polisi RW untuk berinteraksi dengan warga, mengidentifikasi dan menindaklanjuti gangguan keamanan serta mensosialisasikan nomor telepon dinasnya agar warga mudah menghubungi jika membutuhkan bantuan Polisis'),
-(7, 'C82', '-'),
-(8, 'C91', '-'),
-(9, 'C92', '-'),
-(10, 'C93', '-'),
-(11, 'C94', '-'),
-(12, 'D101', '-'),
-(13, 'D102', '-'),
-(14, 'D103', '-'),
-(15, 'D104', '-'),
-(16, 'D111', '-'),
-(17, 'D112', '-'),
-(18, 'D121', '-'),
-(19, 'D122', '-'),
-(20, 'D131', '-'),
-(21, 'D132', '-'),
-(22, 'D141', '-'),
-(23, 'D142', '-'),
-(24, 'F151', '-'),
-(25, 'F152', '-'),
-(26, 'G161', '-');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `kegiatan_polres`
---
-
-CREATE TABLE `kegiatan_polres` (
-  `id` int(11) NOT NULL,
-  `PG` varchar(255) NOT NULL,
-  `nama_kegiatan` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `kegiatan_polres`
---
-
-INSERT INTO `kegiatan_polres` (`id`, `PG`, `nama_kegiatan`) VALUES
-(1, 'A11', 'Optimalisasi Respon Pengaduan  Masyarakat yang cepat dan berkuaitas oleh akun resmi Satuan Wil/Sat \r\n'),
-(2, 'A21', 'Optimalisasi penyebaran konten positif dan pengalihan isu negatif Polri yang dilakukan oleh akun Sobat Kamtibmas\r\n'),
-(3, 'A41', 'Meningkatnya Kegiatan berupa :\r\na. Amplifikasi sosialisasi nomor Whatsapp Kasatwil(Kapolres) sehingga dikenal lebih dikenal banyak orang.'),
-(4, 'C72', 'Terlaksananya giat Bakti Kesehatan berupa pengobatan gratis, dan sebagainya pda RS Polri/Faskes Polri.\r\n'),
-(5, 'C81', 'Terlaksananya giat Jumat Berkah sebagai wujud kepedulan Polri	\r\n'),
-(6, 'C82 ', 'Terlaksananya giat bazar pasar Murah bapokting atau kegiatan bakti sosial di slum area dengan melibatkan stakeholder\r\n'),
-(8, 'C92', '-'),
-(11, 'D101', 'Optimalisasi pelaksanaan tatap muka/sambang oleh Polisi RW untuk berinteraksi dengan warga, mengidentifikasi dan menindaklanjuti gangguan keamanan serta mensosialisasikan nomor telepon dinasnya agar warga mudah menghubungi jika membutuhkan bantuan Polisi\r'),
-(12, 'D102', 'Optimalisasi kegitan tatap muka/sambang oleh Bhabinkamtibmas untuk berinteraksi dengan warga, mengindentifikasi dan menindaklanjuti gangguan keamanan serta mensosialisasikan nomor telepon dinasnya agar warga mudah menghubungi jika membutuhkan bantuan poli'),
-(13, 'D103', 'Meningkatkan Kegiatan Pelatihan SatKamling/Pamswakarsa\r\n'),
-(14, 'D104', 'Meningkatkan aktivitas pengamanan di lingkungan oleh Satkamling/Pamswakarsa\r\n'),
-(15, 'D111', 'Optimalisasi penyelenggaraan kegiatan gabungan TNI_POLRI dalam bentuk olah raga/ seni budaya/keagamaan atau kegiatan sosial lainnya.\r\n'),
-(16, 'D112', 'Optimalisasi kegiatan patroli gabungan TNI-POLRI dalam menjaga Kamtibmas.\r\n'),
-(17, 'D121', 'Meningkatkan patroli dialogis (jalan Kaki, bersepeda/motor) dipusat keramaian seperti pasar,terminal, warung, dan tempat-temat aktivitas masyarakat lainnya.\r\n'),
-(18, 'D122', 'Optimalisasi pergelaran(penjagaan dan pengaturan) anggota Polri pada waktu :\r\na. Pagi hari jam kerja/sekolah dengan sasaran titik rawan macet, rawan lakam anak sekolah dan tempat perbelanjaan;\r\nb. Sore hari jam pulang kerja dengan sasaran titik rawan mace'),
-(19, 'E131', 'Optimalisasi kegiatan JUMAT CURHAT oleh Kasatwil secara rutin untuk berkomunikasi secara langsung dengan masyarakat\r\n'),
-(20, 'E132', 'Optimalisasi kegiatan MINGGU KASIH oleh Kasatwil secara rutin untuk berkomunikasi secara langsung dengan masyarakat\r\n'),
-(21, 'E141', 'Meningkatkan pengisian IKM (E-Survey) pada setiap pelayanan publik di satker dan satwil kemudian menindaklanjuti hasil survey tersebut untuk memperbaiki kualitas pelayanan publik\r\n'),
-(22, 'E142', 'Meningkatkan kegiatan sosialisasi dan penindakan pelanggaran budaya anti pungli,gratifikasi, transaksional dalam pelayanan publik Polri kepada masyarakat umum atau yang sedang menerima pelayanan publik\r\n'),
-(23, 'F151', 'Optimalisasi kegiatan anev atau gelar perkara dan tindak lanjut percepatan penyelesaian perkara setiap minggu.\r\n'),
-(24, 'F152', 'Optimalisasi kegiatan press release pengungkapan perkara pidana\r\n'),
-(25, 'G161', 'Terlaksananya penutupan/mematikan lampu rotator bagian belakang pada seluruh kendaraan dinas Polri sehingga tidak mengganggu pengguna jalan dibelakang\r\n');
 
 -- --------------------------------------------------------
 
@@ -294,22 +331,81 @@ INSERT INTO `persentase_polres` (`id`, `Polres`, `Periode`, `Persentase`, `PG`, 
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `program`
+--
+
+CREATE TABLE `program` (
+  `id` int(11) NOT NULL,
+  `triwulan_id` int(11) NOT NULL,
+  `nama_program` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `program`
+--
+
+INSERT INTO `program` (`id`, `triwulan_id`, `nama_program`) VALUES
+(1, 1, 'A'),
+(2, 1, 'B'),
+(3, 1, 'C'),
+(4, 1, 'D'),
+(5, 1, 'E'),
+(6, 1, 'F'),
+(7, 2, 'A'),
+(8, 2, 'B'),
+(9, 2, 'C'),
+(10, 2, 'D'),
+(11, 2, 'E'),
+(12, 2, 'F'),
+(13, 3, 'A'),
+(14, 3, 'B'),
+(15, 3, 'C'),
+(16, 3, 'D'),
+(17, 3, 'E'),
+(18, 3, 'F'),
+(19, 4, 'A'),
+(20, 4, 'B'),
+(21, 4, 'C'),
+(22, 4, 'D'),
+(23, 4, 'E'),
+(24, 4, 'F'),
+(25, 5, 'A'),
+(26, 5, 'B'),
+(27, 5, 'C'),
+(28, 5, 'D'),
+(29, 5, 'E'),
+(30, 5, 'F'),
+(31, 6, 'A'),
+(32, 6, 'B'),
+(33, 6, 'C'),
+(34, 6, 'D'),
+(35, 6, 'E'),
+(36, 6, 'F');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `triwulan`
 --
 
 CREATE TABLE `triwulan` (
   `id` int(11) NOT NULL,
   `Triwulan` int(11) NOT NULL,
-  `Periode` varchar(255) NOT NULL
+  `Periode` date NOT NULL,
+  `Tenggat` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `triwulan`
 --
 
-INSERT INTO `triwulan` (`id`, `Triwulan`, `Periode`) VALUES
-(5, 1, '01 Januari 2024 - 01 Juni 2024'),
-(6, 2, '02 Juni 2024 - 02 December 2024');
+INSERT INTO `triwulan` (`id`, `Triwulan`, `Periode`, `Tenggat`) VALUES
+(1, 1, '2024-12-08', 'Senin, 1 Januari - Minggu, 31 Maret'),
+(2, 2, '2024-12-08', 'Senin, 1 April - Minggu, 30 Juni'),
+(3, 3, '2024-12-08', 'Senin, 1 Juli - Senin, 30 September'),
+(4, 4, '2024-12-08', 'Selasa, 1 Oktober - Selasa, 31 Desember'),
+(5, 5, '2024-12-08', 'Rabu, 1 Januari - Selasa, 31 Maret'),
+(6, 6, '2024-12-08', 'Rabu, 1 April - Selasa, 30 Juni');
 
 -- --------------------------------------------------------
 
@@ -354,108 +450,112 @@ CREATE TABLE `verifikasi_polres` (
   `Ditolak` int(11) NOT NULL,
   `Ditolak_akumulasi` int(11) NOT NULL,
   `Persentase` float NOT NULL,
-  `Periode` date NOT NULL,
+  `Periode` datetime NOT NULL,
   `Triwulan` int(11) NOT NULL,
-  `program` varchar(2) NOT NULL,
-  `giat` varchar(5) NOT NULL
+  `program` int(11) NOT NULL,
+  `giat` int(11) NOT NULL,
+  `Min` float NOT NULL,
+  `Max` float NOT NULL,
+  `Min_upload` int(11) NOT NULL,
+  `Max_upload` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `verifikasi_polres`
 --
 
-INSERT INTO `verifikasi_polres` (`id`, `Polda`, `Polres`, `Sudah_diupload`, `Sudah_diverifikasi`, `Belum_diverifikasi`, `Ditolak`, `Ditolak_akumulasi`, `Persentase`, `Periode`, `Triwulan`, `program`, `giat`) VALUES
-(182, 'Aceh', 'Aceh Timur', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(183, 'Aceh', 'Pidie', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(184, 'Aceh', 'Simeulue', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(185, 'Aceh', 'Aceh Selatan', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(186, 'Aceh', 'Aceh Barat', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(187, 'Aceh', 'Aceh Besar', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(188, 'Aceh', 'Aceh Tamiang', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(189, 'Aceh', 'Kota Subulussalam', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(190, 'Aceh', 'Nagan Raya', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(191, 'Aceh', 'Aceh Utara', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(192, 'Aceh', 'Gayo Lues', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(193, 'Aceh', 'Bireuen', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(194, 'Aceh', 'Kota Sabang', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(195, 'Aceh', 'Kota Banda Aceh', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(196, 'Aceh', 'Aceh Jaya', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(197, 'Aceh', 'Aceh Tengah', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(198, 'Aceh', 'Aceh Barat Daya', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(199, 'Aceh', 'Aceh Tenggara', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(200, 'Aceh', 'Kota Lhokseumawe', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(201, 'Aceh', 'Kota Langsa', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(202, 'Aceh', 'Bener Meriah', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '11'),
-(203, 'Aceh', 'Pidie Jaya', 5, 4, 1, 0, 0, 22.22, '2024-12-05', 1, 'A', '11'),
-(204, 'Aceh', 'Aceh Singkil', 0, 0, 0, 0, 0, 0, '2024-12-05', 1, 'A', '11'),
-(205, 'Polda', 'Polres', 0, 0, 0, 0, 0, 0, '2024-12-05', 2, 'B', '3'),
-(206, 'Aceh', 'Aceh Timur', 90, 88, 1, 1, 6, 26.83, '2024-12-05', 2, 'B', '3'),
-(207, 'Aceh', 'Gayo Lues', 90, 87, 3, 0, 16, 26.52, '2024-12-05', 2, 'B', '3'),
-(208, 'Aceh', 'Kota Lhokseumawe', 90, 86, 4, 0, 19, 26.22, '2024-12-05', 2, 'B', '3'),
-(209, 'Aceh', 'Aceh Utara', 89, 86, 3, 0, 20, 26.22, '2024-12-05', 2, 'B', '3'),
-(210, 'Aceh', 'Aceh Tengah', 89, 85, 4, 0, 5, 25.91, '2024-12-05', 2, 'B', '3'),
-(211, 'Aceh', 'Aceh Tamiang', 90, 85, 3, 2, 5, 25.91, '2024-12-05', 2, 'B', '3'),
-(212, 'Aceh', 'Aceh Jaya', 89, 85, 4, 0, 4, 25.91, '2024-12-05', 2, 'B', '3'),
-(213, 'Aceh', 'Kota Subulussalam', 89, 84, 5, 0, 5, 25.61, '2024-12-05', 2, 'B', '3'),
-(214, 'Aceh', 'Aceh Barat', 89, 84, 5, 0, 5, 25.61, '2024-12-05', 2, 'B', '3'),
-(215, 'Aceh', 'Kota Sabang', 89, 84, 5, 0, 14, 25.61, '2024-12-05', 2, 'B', '3'),
-(216, 'Aceh', 'Pidie', 89, 83, 6, 0, 9, 25.3, '2024-12-05', 2, 'B', '3'),
-(217, 'Aceh', 'Kota Banda Aceh', 89, 83, 6, 0, 14, 25.3, '2024-12-05', 2, 'B', '3'),
-(218, 'Aceh', 'Aceh Barat Daya', 85, 79, 4, 2, 3, 24.09, '2024-12-05', 2, 'B', '3'),
-(219, 'Aceh', 'Aceh Tenggara', 84, 79, 5, 0, 12, 24.09, '2024-12-05', 2, 'B', '3'),
-(220, 'Aceh', 'Pidie Jaya', 85, 79, 6, 0, 9, 24.09, '2024-12-05', 2, 'B', '3'),
-(221, 'Aceh', 'Nagan Raya', 86, 78, 8, 0, 3, 23.78, '2024-12-05', 2, 'B', '3'),
-(222, 'Aceh', 'Kota Langsa', 84, 77, 5, 2, 8, 23.48, '2024-12-05', 2, 'B', '3'),
-(223, 'Aceh', 'Bireuen', 85, 76, 7, 2, 10, 23.17, '2024-12-05', 2, 'B', '3'),
-(224, 'Aceh', 'Simeulue', 79, 76, 1, 2, 6, 23.17, '2024-12-05', 2, 'B', '3'),
-(225, 'Aceh', 'Aceh Besar', 82, 70, 6, 6, 18, 21.34, '2024-12-05', 2, 'B', '3'),
-(226, 'Aceh', 'Aceh Selatan', 83, 67, 10, 6, 11, 20.43, '2024-12-05', 2, 'B', '3'),
-(227, 'Aceh', 'Bener Meriah', 68, 64, 2, 2, 15, 19.51, '2024-12-05', 2, 'B', '3'),
-(228, 'Aceh', 'Aceh Singkil', 70, 63, 7, 0, 8, 19.21, '2024-12-05', 2, 'B', '3'),
-(229, 'Aceh', 'Aceh Timur', 5, 2, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(230, 'Aceh', 'Pidie', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(231, 'Aceh', 'Simeulue', 5, 4, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(232, 'Aceh', 'Aceh Selatan', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(233, 'Aceh', 'Aceh Barat', 5, 5, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(234, 'Aceh', 'Aceh Besar', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(235, 'Aceh', 'Aceh Tamiang', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(236, 'Aceh', 'Kota Subulussalam', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(237, 'Aceh', 'Nagan Raya', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(238, 'Aceh', 'Aceh Utara', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(239, 'Aceh', 'Gayo Lues', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(240, 'Aceh', 'Bireuen', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(241, 'Aceh', 'Kota Sabang', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(242, 'Aceh', 'Kota Banda Aceh', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(243, 'Aceh', 'Aceh Jaya', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(244, 'Aceh', 'Aceh Tengah', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(245, 'Aceh', 'Aceh Barat Daya', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(246, 'Aceh', 'Aceh Tenggara', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(247, 'Aceh', 'Kota Lhokseumawe', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(248, 'Aceh', 'Kota Langsa', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(249, 'Aceh', 'Bener Meriah', 5, 3, 0, 0, 0, 27.78, '2024-12-05', 1, 'A', '1'),
-(250, 'Aceh', 'Pidie Jaya', 5, 3, 1, 0, 0, 22.22, '2024-12-05', 1, 'A', '1'),
-(251, 'Aceh', 'Aceh Singkil', 0, 0, 0, 0, 0, 0, '2024-12-05', 1, 'A', '1');
+INSERT INTO `verifikasi_polres` (`id`, `Polda`, `Polres`, `Sudah_diupload`, `Sudah_diverifikasi`, `Belum_diverifikasi`, `Ditolak`, `Ditolak_akumulasi`, `Persentase`, `Periode`, `Triwulan`, `program`, `giat`, `Min`, `Max`, `Min_upload`, `Max_upload`) VALUES
+(140, 'Aceh', 'Aceh Timur', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(141, 'Aceh', 'Pidie', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(142, 'Aceh', 'Simeulue', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(143, 'Aceh', 'Aceh Selatan', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(144, 'Aceh', 'Aceh Barat', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(145, 'Aceh', 'Aceh Besar', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(146, 'Aceh', 'Aceh Tamiang', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(147, 'Aceh', 'Kota Subulussalam', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(148, 'Aceh', 'Nagan Raya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(149, 'Aceh', 'Aceh Utara', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(150, 'Aceh', 'Gayo Lues', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(151, 'Aceh', 'Bireuen', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(152, 'Aceh', 'Kota Sabang', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(153, 'Aceh', 'Kota Banda Aceh', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(154, 'Aceh', 'Aceh Jaya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(155, 'Aceh', 'Aceh Tengah', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(156, 'Aceh', 'Aceh Barat Daya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(157, 'Aceh', 'Aceh Tenggara', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(158, 'Aceh', 'Kota Lhokseumawe', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(159, 'Aceh', 'Kota Langsa', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(160, 'Aceh', 'Bener Meriah', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(161, 'Aceh', 'Pidie Jaya', 5, 4, 1, 0, 0, 22.22, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(162, 'Aceh', 'Aceh Singkil', 0, 0, 0, 0, 0, 0, '2024-12-10 22:30:00', 1, 1, 1, 23.33, 34.55, 12, 45),
+(163, 'Aceh', 'Aceh Timur', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(164, 'Aceh', 'Pidie', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(165, 'Aceh', 'Simeulue', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(166, 'Aceh', 'Aceh Selatan', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(167, 'Aceh', 'Aceh Barat', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(168, 'Aceh', 'Aceh Besar', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(169, 'Aceh', 'Aceh Tamiang', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(170, 'Aceh', 'Kota Subulussalam', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(171, 'Aceh', 'Nagan Raya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(172, 'Aceh', 'Aceh Utara', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(173, 'Aceh', 'Gayo Lues', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(174, 'Aceh', 'Bireuen', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(175, 'Aceh', 'Kota Sabang', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(176, 'Aceh', 'Kota Banda Aceh', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(177, 'Aceh', 'Aceh Jaya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(178, 'Aceh', 'Aceh Tengah', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(179, 'Aceh', 'Aceh Barat Daya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(180, 'Aceh', 'Aceh Tenggara', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(181, 'Aceh', 'Kota Lhokseumawe', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(182, 'Aceh', 'Kota Langsa', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(183, 'Aceh', 'Bener Meriah', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(184, 'Aceh', 'Pidie Jaya', 5, 4, 1, 0, 0, 22.22, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(185, 'Aceh', 'Aceh Singkil', 0, 0, 0, 0, 0, 0, '2024-12-10 22:50:00', 1, 1, 2, 20.33, 45.44, 30, 59),
+(186, 'Aceh', 'Aceh Timur', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(187, 'Aceh', 'Pidie', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(188, 'Aceh', 'Simeulue', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(189, 'Aceh', 'Aceh Selatan', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(190, 'Aceh', 'Aceh Barat', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(191, 'Aceh', 'Aceh Besar', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(192, 'Aceh', 'Aceh Tamiang', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(193, 'Aceh', 'Kota Subulussalam', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(194, 'Aceh', 'Nagan Raya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(195, 'Aceh', 'Aceh Utara', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(196, 'Aceh', 'Gayo Lues', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(197, 'Aceh', 'Bireuen', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(198, 'Aceh', 'Kota Sabang', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(199, 'Aceh', 'Kota Banda Aceh', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(200, 'Aceh', 'Aceh Jaya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(201, 'Aceh', 'Aceh Tengah', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(202, 'Aceh', 'Aceh Barat Daya', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(203, 'Aceh', 'Aceh Tenggara', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(204, 'Aceh', 'Kota Lhokseumawe', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(205, 'Aceh', 'Kota Langsa', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(206, 'Aceh', 'Bener Meriah', 5, 5, 0, 0, 0, 27.78, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(207, 'Aceh', 'Pidie Jaya', 5, 4, 1, 0, 0, 22.22, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70),
+(208, 'Aceh', 'Aceh Singkil', 0, 0, 0, 0, 0, 0, '2024-12-10 22:58:00', 1, 1, 3, 20.21, 32.11, 40, 70);
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indeks untuk tabel `batasan`
+--
+ALTER TABLE `batasan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `giat`
+--
+ALTER TABLE `giat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `program_id` (`program_id`);
+
+--
 -- Indeks untuk tabel `judul_riwayat`
 --
 ALTER TABLE `judul_riwayat`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeks untuk tabel `kegiatan_polda`
---
-ALTER TABLE `kegiatan_polda`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeks untuk tabel `kegiatan_polres`
---
-ALTER TABLE `kegiatan_polres`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -483,6 +583,13 @@ ALTER TABLE `persentase_polres`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `program`
+--
+ALTER TABLE `program`
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD KEY `fk_triwulan` (`triwulan_id`);
+
+--
 -- Indeks untuk tabel `triwulan`
 --
 ALTER TABLE `triwulan`
@@ -498,29 +605,32 @@ ALTER TABLE `user`
 -- Indeks untuk tabel `verifikasi_polres`
 --
 ALTER TABLE `verifikasi_polres`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Triwulan` (`Triwulan`),
+  ADD KEY `program` (`program`),
+  ADD KEY `giat` (`giat`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `batasan`
+--
+ALTER TABLE `batasan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT untuk tabel `giat`
+--
+ALTER TABLE `giat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
 -- AUTO_INCREMENT untuk tabel `judul_riwayat`
 --
 ALTER TABLE `judul_riwayat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT untuk tabel `kegiatan_polda`
---
-ALTER TABLE `kegiatan_polda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- AUTO_INCREMENT untuk tabel `kegiatan_polres`
---
-ALTER TABLE `kegiatan_polres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT untuk tabel `laporan_polda`
@@ -547,10 +657,16 @@ ALTER TABLE `persentase_polres`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4693;
 
 --
+-- AUTO_INCREMENT untuk tabel `program`
+--
+ALTER TABLE `program`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
 -- AUTO_INCREMENT untuk tabel `triwulan`
 --
 ALTER TABLE `triwulan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
@@ -562,7 +678,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `verifikasi_polres`
 --
 ALTER TABLE `verifikasi_polres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `giat`
+--
+ALTER TABLE `giat`
+  ADD CONSTRAINT `giat_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `program`
+--
+ALTER TABLE `program`
+  ADD CONSTRAINT `fk_triwulan` FOREIGN KEY (`triwulan_id`) REFERENCES `triwulan` (`id`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `verifikasi_polres`
+--
+ALTER TABLE `verifikasi_polres`
+  ADD CONSTRAINT `verifikasi_polres_ibfk_1` FOREIGN KEY (`Triwulan`) REFERENCES `triwulan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `verifikasi_polres_ibfk_2` FOREIGN KEY (`program`) REFERENCES `program` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `verifikasi_polres_ibfk_3` FOREIGN KEY (`giat`) REFERENCES `giat` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

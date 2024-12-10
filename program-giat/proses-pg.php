@@ -66,7 +66,7 @@ if (isset($_POST['simpan'])) {
     }
 
     // Setelah data berhasil disimpan, arahkan kembali ke halaman triwulan.php
-    header("Location: triwulan.php");
+    header("Location: pg.php");
     exit;
 }
 ?>
