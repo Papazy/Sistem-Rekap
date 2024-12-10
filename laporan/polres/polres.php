@@ -274,6 +274,7 @@ if(!isset($_GET['triwulan'])){
                             $triwulan = isset($_GET['triwulan']) ? $_GET['triwulan'] : '';
                             $program = isset($_GET['program']) ? $_GET['program'] : '';
                             $giat = isset($_GET['giat']) ? $_GET['giat'] : '';
+                            $periode = isset($_GET['periode']) ? $_GET['periode'] : '';
 
                             // Query untuk mendapatkan data verifikasi
                             $query = "SELECT Polda, Polres, SUM(Sudah_diupload) AS Total_diupload, SUM(Sudah_diverifikasi) AS Total_diverifikasi, 
@@ -282,7 +283,7 @@ if(!isset($_GET['triwulan'])){
   FROM verifikasi_polres 
   WHERE 1=1";
 
-
+                            
                             if (!empty($triwulan)) {
                                 $query .= " AND Triwulan = '$triwulan'";
                             }
@@ -292,11 +293,45 @@ if(!isset($_GET['triwulan'])){
                             if (!empty($giat)) {
                                 $query .= " AND giat = '$giat'";
                             }
+                            if (!empty($periode)) {
+                                $query .= " AND DATE(Periode) = '$periode'";
+                            }
 
                             $query .= " GROUP BY Polres ORDER BY Polres";
 
                             // Menjalankan query
                             $queryPersentase = mysqli_query($koneksi, $query);
+
+                              // mencari min max
+                              $max = 0;
+                              $min = 0;
+                              $maxFile = 0;
+                              $minFile = 0;
+                              if(!empty($giat)){
+                                  $max = $MaxPersentase;
+                                  $min = $MinPersentase;
+                                  $maxFile = $MaxUpload;
+                                  $minFile = $MinUpload;
+                              }else if(!empty($program)){
+                                  // program = 1 maka di convert menjadi A, begitu juga dengan B, C sampai Z
+                                  $queryMinMax = "SELECT min, max, min_file, max_file FROM batasan WHERE satuan = 'Polres' AND nama = '$programChar'";
+                                  $minMaxRes = mysqli_query($koneksi, $queryMinMax);
+                                  $minMax = mysqli_fetch_array($minMaxRes);
+                                  $max = $minMax["max"];
+                                  $min = $minMax["min"];
+                                  $maxFile = $minMax["max_file"];
+                                  $minFile = $minMax["min_file"];
+                              }else{
+                                  // mendapatkan triwulan
+                                  $queryMinMax = "SELECT min, max, min_file, max_file FROM batasan WHERE satuan = 'Polres' AND nama = 'Triwulan $triwulan'";
+                                  $minMaxRes = mysqli_query($koneksi, $queryMinMax);
+                                  $minMax = mysqli_fetch_array($minMaxRes);
+                                  // handle error null 
+                                  $max = !isset($minMax["max"]) ? 0 : $minMax["max"];
+                                  $min = !isset($minMax["min"]) ? 0 : $minMax["min"];
+                                  $maxFile = !isset($minMax["max_file"]) ? 0 : $minMax["max_file"];
+                                  $minFile = !isset($minMax["min_file"]) ? 0 : $minMax["min_file"];
+                              }
 
                             // Proses data untuk setiap Polres
                             $no = 1;
@@ -348,9 +383,9 @@ if(!isset($_GET['triwulan'])){
                                         <center>
                                             <?php
                                             // Tentukan warna berdasarkan kondisi
-                                            if ($Persentase < $MinPersentase) {
+                                            if ($Persentase < $min) {
                                                 $color = "#e60505"; // Merah (di bawah Min)
-                                            } elseif ($Persentase >= $MaxPersentase) {
+                                            } elseif ($Persentase >= $max) {
                                                 $color = "green"; // Hijau (sama dengan atau di atas Max)
                                             } else {
                                                 $color = "#fcb603"; // Kuning (antara Min dan Max)
@@ -371,8 +406,8 @@ if(!isset($_GET['triwulan'])){
                     </table>
 
                     <div style="margin-top: 10px; display: flex; justify-content: right; padding-right: 20px; color: #7d7e80; font-size: 15px; font-weight: 450;">
-                        --- Min : <span style="color: #fcb603; margin-left: 5px; font-weight: 600;"><?= number_format($MinPersentase, 2) ?>% (<?= $MinUpload ?>)</span>
-                        &nbsp;&nbsp;--- Max : <span style="color: green; margin-left: 5px; font-weight: 600;"><?= number_format($MaxPersentase, 2) ?>% (<?= $MaxUpload ?>)</span>
+                        --- Min : <span style="color: #fcb603; margin-left: 5px; font-weight: 600;"><?= number_format($min, 2) ?>% (<?= $minFile ?>)</span>
+                        &nbsp;&nbsp;--- Max : <span style="color: green; margin-left: 5px; font-weight: 600;"><?= number_format($max, 2) ?>% (<?= $maxFile ?>)</span>
                     </div>
 
 

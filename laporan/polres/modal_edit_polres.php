@@ -1,6 +1,6 @@
 <?php
-require_once "../config/conn.php";
-require_once "../user/function/functions.php";
+require_once "../../config/conn.php";
+require_once "../../user/function/functions.php";
 
 $id = 0;
 if(isset($_POST['id'])){
